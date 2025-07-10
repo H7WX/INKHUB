@@ -58,6 +58,18 @@ local Slider = PlayerTab:CreateSlider({
     end,
 })
 
+local FovSlider = PlayerTab:CreateSlider({
+    Name = "FOV",
+    Range = {70, 120},
+    Increment = 1,
+    Suffix = "FieldOfView",
+    CurrentValue = 70,
+    Flag = "Slider1",
+    Callback = function(Value)
+        workspace.CurrentCamera.FieldOfView = Value
+    end,
+})
+
 -- تحديث WalkSpeed كل فريم لضمان استقراره ضد التغيير من اللعبة
 RunService.RenderStepped:Connect(function()
     local char = LocalPlayer.Character
