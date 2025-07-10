@@ -13,7 +13,7 @@ local Window = Rayfield:CreateWindow({
     ShowText = "Ink Hub",
     Theme = "Dark Blue",
 
-    ToggleUIKeybind = Enum.KeyCode.K, -- ← تصحيح هنا
+    ToggleUIKeybind = Enum.KeyCode.K,
 
     DisableRayfieldPrompts = false,
     DisableBuildWarnings = false,
@@ -43,7 +43,6 @@ local Window = Rayfield:CreateWindow({
 })
 
 local PlayerTab = Window:CreateTab("Player Settings", 85135135911975)
-
 local EspTab = Window:CreateTab("Esp Tab", 4483362458)
 
 local Slider = PlayerTab:CreateSlider({
@@ -55,18 +54,6 @@ local Slider = PlayerTab:CreateSlider({
     Flag = "Slider1",
     Callback = function(Value)
         TargetWalkSpeed = Value
-    end,
-})
-
-local FovSlider = PlayerTab:CreateSlider({
-    Name = "FOV",
-    Range = {70, 120},
-    Increment = 1,
-    Suffix = "FieldOfView",
-    CurrentValue = 70,
-    Flag = "Slider1",
-    Callback = function(Value)
-        workspace.CurrentCamera.FieldOfView = Value
     end,
 })
 
@@ -105,3 +92,31 @@ local Toggle = EspTab:CreateToggle({
         end
     end,
 })
+
+-- ▼▼▼ إضافة FOV سلايدر مع سموث تحديث ▼▼▼
+
+local targetFOV = 70
+
+local FovSlider = PlayerTab:CreateSlider({
+    Name = "FOV",
+    Range = {70, 120},
+    Increment = 1,
+    Suffix = "FieldOfView",
+    CurrentValue = targetFOV,
+    Flag = "Slider2",
+    Callback = function(Value)
+        targetFOV = Value
+    end,
+})
+
+-- تحديث FOV بسلاسة
+RunService.RenderStepped:Connect(function(deltaTime)
+    local camera = workspace.CurrentCamera
+    if camera then
+        local currentFOV = camera.FieldOfView
+        local smoothFactor = 5 -- تحكم بسرعة السموث
+        camera.FieldOfView = currentFOV + (targetFOV - currentFOV) * math.clamp(deltaTime * smoothFactor, 0, 1)
+    end
+end)
+
+-- ▲▲▲ نهاية الإضافة ▲▲▲
