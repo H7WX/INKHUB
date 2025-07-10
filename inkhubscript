@@ -42,7 +42,9 @@ local Window = Rayfield:CreateWindow({
     }
 })
 
-local PlayerTab = Window:CreateTab("Player Settings", 130505036756733)
+local PlayerTab = Window:CreateTab("Player Settings", 85135135911975)
+
+local EspTab = Window:CreateTab("Esp Tab", 4483362458)
 
 local Slider = PlayerTab:CreateSlider({
     Name = "WalkSpeed",
@@ -69,7 +71,7 @@ end)
 
 local highlightInstance = nil -- نحتفظ بالمرجع هنا
 
-local Toggle = PlayerTabTab:CreateToggle({
+local Toggle = EspTab:CreateToggle({
     Name = "Esp Part",
     CurrentValue = false,
     Flag = "Toggle1",
