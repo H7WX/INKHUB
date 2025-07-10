@@ -1,0 +1,68 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local TargetWalkSpeed = 16 -- القيمة الافتراضية
+
+local Window = Rayfield:CreateWindow({
+    Name = "Ink Hub",
+    Icon = 0,
+    LoadingTitle = "Cooking. . .",
+    LoadingSubtitle = "by Anonymous",
+    ShowText = "Ink Hub",
+    Theme = "Dark Blue",
+
+    ToggleUIKeybind = Enum.KeyCode.K, -- ← تصحيح هنا
+
+    DisableRayfieldPrompts = false,
+    DisableBuildWarnings = false,
+
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = nil,
+        FileName = "Big Hub"
+    },
+
+    Discord = {
+        Enabled = false,
+        Invite = "noinvitelink",
+        RememberJoins = true
+    },
+
+    KeySystem = false,
+    KeySettings = {
+        Title = "Untitled",
+        Subtitle = "Key System",
+        Note = "No method of obtaining the key is provided",
+        FileName = "Key",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Key = {"Hello"}
+    }
+})
+
+local PlayerTab = Window:CreateTab("Player Settings", 130505036756733)
+
+local Slider = PlayerTab:CreateSlider({
+    Name = "WalkSpeed",
+    Range = {16, 100},
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = 16,
+    Flag = "Slider1",
+    Callback = function(Value)
+        TargetWalkSpeed = Value
+    end,
+})
+
+-- تحديث WalkSpeed كل فريم لضمان استقراره ضد التغيير من اللعبة
+RunService.RenderStepped:Connect(function()
+    local char = LocalPlayer.Character
+    if char and char:FindFirstChild("Humanoid") then
+        local humanoid = char.Humanoid
+        if humanoid.WalkSpeed ~= TargetWalkSpeed then
+            humanoid.WalkSpeed = TargetWalkSpeed
+        end
+    end
+end)
