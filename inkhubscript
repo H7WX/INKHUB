@@ -66,3 +66,28 @@ RunService.RenderStepped:Connect(function()
         end
     end
 end)
+
+local highlightInstance = nil -- نحتفظ بالمرجع هنا
+
+local Toggle = PlayerTabTab:CreateToggle({
+    Name = "Esp Part",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        local parttarget = workspace:WaitForChild("esptarget")
+
+        if Value then
+            -- تفعيل: أنشئ Highlight جديد
+            highlightInstance = Instance.new("Highlight")
+            highlightInstance.OutlineTransparency = 1
+            highlightInstance.FillColor = Color3.new(1, 0, 0)
+            highlightInstance.Parent = parttarget
+        else
+            -- إيقاف: احذف Highlight إذا كان موجود
+            if highlightInstance then
+                highlightInstance:Destroy()
+                highlightInstance = nil
+            end
+        end
+    end,
+})
